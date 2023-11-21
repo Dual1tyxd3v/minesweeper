@@ -1,6 +1,11 @@
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
+:root {
+  --color-windows-bg: #c1cfd0;
+  --lg-border: linear-gradient(to right, #161d17, #0c71ba);
+}
+
 *,
 *::before,
 &::after {
@@ -17,6 +22,12 @@ body {
   font-size: 1.6rem;
   font-family: sans-serif;
   line-height: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: #424242;
 }
 
 img, canvas {
