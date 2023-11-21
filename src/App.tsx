@@ -1,11 +1,15 @@
-import GlobalStyles from './globalstyles';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Settings from './pages/settings';
+import Game from './pages/game';
 
 function App() {
-  return(
-    <>
-    <GlobalStyles />
-      <h1>hello world</h1>
-    </>
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Settings />} />
+        <Route path="/game" element={<Game />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
