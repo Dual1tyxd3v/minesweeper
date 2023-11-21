@@ -14,7 +14,11 @@ export const createInitState = ({ rows, columns, mines }: GameSettings) => {
   for (let i = 0, iteration = 0; i < rows; i++) {
     const row = [];
     for (let k = 0; k < columns; k++) {
-      row.push(minesOnIteration.includes(iteration)) ? '.' : null;
+      if (minesOnIteration.includes(iteration)) {
+        row.push('.');
+      } else {
+        row.push(null);
+      }
       iteration++;
     }
     result.push(row);

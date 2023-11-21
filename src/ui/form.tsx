@@ -3,6 +3,10 @@ import styled from 'styled-components';
 import { config } from '../utils/config';
 import DifficultyField from './difficultyField';
 import CustomField from './customField';
+import { useAppDispatch } from '../store/store';
+import { setField } from '../store/actions';
+import { createInitState } from '../utils/createInit';
+import { useNavigate } from 'react-router-dom';
 
 const StyledForm = styled.form`
   padding: 0 2rem 1rem;
@@ -41,6 +45,8 @@ export default function Form() {
     columns: columns[0],
     mines: mines[0],
   });
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const radioBtnHandler = useCallback((e: ChangeEvent) => {
     const radioBtn = e.target as HTMLInputElement;
@@ -59,7 +65,8 @@ export default function Form() {
 
   function submitHandler(e: FormEvent) {
     e.preventDefault();
-
+    dispatch(setField(createInitState(customDif)));
+    navigate('/game');
   }
 
   const menuData = Object.entries(config);

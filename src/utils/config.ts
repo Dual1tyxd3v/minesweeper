@@ -18,9 +18,9 @@ export const config = {
     name: 'expert'
   },
   custom: {
-    rows: [9, 24],
-    columns: [9, 30],
-    mines: [10, 668],
+    rows: [3, 24],
+    columns: [3, 30],
+    mines: [2, 668],
     name: 'custom'
   },
 };
