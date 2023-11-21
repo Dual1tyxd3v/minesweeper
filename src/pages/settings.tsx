@@ -1,17 +1,6 @@
-import styled from 'styled-components';
 import Form from '../ui/form';
-
-const Wrapper = styled.div`
-  background-color: var(--color-windows-bg);
-  padding: 3px 5px;
-`;
-
-const Header = styled.h2`
-  background: var(--lg-border);
-  color: #fff;
-  padding: 2px 5px;
-  font-weight: 500;
-`;
+import Header from '../ui/header';
+import Wrapper from '../ui/wrapper';
 
 export default function Settings() {
   return (
