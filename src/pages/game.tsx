@@ -27,7 +27,6 @@ export default function Game() {
     if (!field.length) navigate('/');
   }, []);
 
-  console.log(field);
   return (
     <GameWrapper>
       <GameHeader>Minesweeper</GameHeader>

@@ -11,7 +11,7 @@ export default function Smile() {
     >
       <g
         id="SVGRepo_bgCarrier"
-        stroke-width="0"
+        strokeWidth="0"
         transform="translate(112.63999999999999,112.63999999999999), scale(0.78)"
       >
         <rect
@@ -27,8 +27,8 @@ export default function Smile() {
 
       <g
         id="SVGRepo_tracerCarrier"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
 
       <g id="SVGRepo_iconCarrier">

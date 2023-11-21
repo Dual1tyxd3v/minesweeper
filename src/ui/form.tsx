@@ -4,9 +4,10 @@ import { config } from '../utils/config';
 import DifficultyField from './difficultyField';
 import CustomField from './customField';
 import { useAppDispatch } from '../store/store';
-import { setField } from '../store/actions';
+import { setField, setLastConfig, setMinesTotal } from '../store/actions';
 import { createInitState } from '../utils/createInit';
 import { useNavigate } from 'react-router-dom';
+import { Difficulty } from '../types';
 
 const StyledForm = styled.form`
   padding: 0 2rem 1rem;
@@ -38,7 +39,7 @@ const Button = styled.button`
 `;
 
 export default function Form() {
-  const [difficulty, setDifficulty] = useState('expert');
+  const [difficulty, setDifficulty] = useState<Difficulty>('expert');
   const { rows, columns, mines } = config.custom;
   const [customDif, setCustomDif] = useState({
     rows: rows[0],
@@ -50,7 +51,7 @@ export default function Form() {
 
   const radioBtnHandler = useCallback((e: ChangeEvent) => {
     const radioBtn = e.target as HTMLInputElement;
-    setDifficulty(radioBtn.value);
+    setDifficulty(radioBtn.value as Difficulty);
   }, []);
 
   const customHandler = useCallback((e: ChangeEvent) => {
@@ -65,7 +66,21 @@ export default function Form() {
 
   function submitHandler(e: FormEvent) {
     e.preventDefault();
-    dispatch(setField(createInitState(customDif)));
+    dispatch(
+      setField(
+        createInitState(
+          difficulty === 'custom' ? customDif : config[difficulty]
+        )
+      )
+    );
+    dispatch(
+      setMinesTotal(
+        difficulty === 'custom' ? customDif.mines : config[difficulty].mines
+      )
+    );
+    dispatch(
+      setLastConfig(difficulty === 'custom' ? customDif : config[difficulty])
+    );
     navigate('/game');
   }
 

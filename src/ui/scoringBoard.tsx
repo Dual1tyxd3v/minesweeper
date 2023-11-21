@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 import Smile from './smile';
 import { borderDarkTop, borderLightTop } from '../globalstyles';
+import { useSelector } from 'react-redux';
+import { getMinesTotal, useAppDispatch } from '../store/store';
+import { useEffect, useState } from 'react';
+import { resetGame } from '../store/actions';
 
 const Wrapper = styled.div`
   ${borderDarkTop}
@@ -16,7 +20,7 @@ const StatusField = styled.p`
   background-color: #000;
   letter-spacing: 1px;
   ${borderDarkTop}
-  width: 43px;
+  width: 48px;
   text-align: center;
 `;
 
@@ -34,13 +38,30 @@ const Button = styled.button`
 `;
 
 export default function ScoringBoard() {
+  const minesTotal = useSelector(getMinesTotal);
+  const [time, setTime] = useState(0);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTime((prev) => prev + 1);
+    }, 1000);
+
+    return () => clearInterval(timer);
+  });
+
+  function btnClickHandler() {
+    dispatch(resetGame());
+    setTime(0);
+  }
+
   return (
     <Wrapper>
-      <StatusField>012</StatusField>
-      <Button>
+      <StatusField>{minesTotal.toString().padStart(3, '0')}</StatusField>
+      <Button onClick={btnClickHandler}>
         <Smile />
       </Button>
-      <StatusField>021</StatusField>
+      <StatusField>{time.toString().padStart(3, '0')}</StatusField>
     </Wrapper>
   );
 }

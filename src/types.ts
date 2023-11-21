@@ -1,3 +1,5 @@
+import { config } from './utils/config';
+
 export type GameSettings = {
   rows: number;
   columns: number;
@@ -10,3 +12,14 @@ export type ConfigField = {
   mines: number | number[];
   name: string;
 };
+
+export type StateType = {
+  minesTotal: number;
+  minesMarked: number;
+  timeStart: number;
+  timeEnd: number;
+  lastConfig: null | GameSettings;
+  field: (string | null)[][];
+};
+
+export type Difficulty = keyof typeof config;

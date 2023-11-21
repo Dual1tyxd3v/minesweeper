@@ -11,3 +11,9 @@ export const setMinesTotal = createAction('setMinesTotal', (value) => ({
 export const setMinesMarked = createAction('setMinesMarked', (value) => ({
   payload: value,
 }));
+
+export const setLastConfig = createAction('setLastConfig', (value) => ({
+  payload: value,
+}));
+
+export const resetGame = createAction('resetGame');
