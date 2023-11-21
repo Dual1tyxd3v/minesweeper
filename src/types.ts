@@ -9,4 +9,4 @@ export type ConfigField = {
   columns: number | number[];
   mines: number | number[];
   name: string;
-}
+};

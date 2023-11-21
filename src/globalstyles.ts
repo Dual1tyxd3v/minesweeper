@@ -3,6 +3,7 @@ import { createGlobalStyle } from 'styled-components';
 const GlobalStyles = createGlobalStyle`
 :root {
   --color-windows-bg: #c1cfd0;
+  --color-windiws-border: #8e9b9d;
   --lg-border: linear-gradient(to right, #161d17, #0c71ba);
 }
 
@@ -66,6 +67,10 @@ h6 {
 button {
   border: none;
   outline: none;
+}
+
+.errorInput {
+  outline: 1px solid red !important;
 }
 `;
 

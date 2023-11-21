@@ -2,7 +2,31 @@ import styled from 'styled-components';
 import { ConfigField } from '../types';
 import { ChangeEvent } from 'react';
 
-const FormField = styled.div``;
+const FormField = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 1rem 0;
+  text-align: left;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--color-windiws-border);
+  }
+`;
+
+const Input = styled.input`
+  margin-right: 2rem;
+`;
+
+const Label = styled.label`
+  text-transform: capitalize;
+`;
+
+const Description = styled.p`
+  font-size: 1.2rem;
+  &:not(:last-child) {
+    margin-top: 0.5rem;
+  }
+`;
 
 type DifficultyFieldProps = {
   config: ConfigField;
@@ -18,7 +42,7 @@ export default function DifficultyField({
   const { rows, columns, mines, name } = config;
   return (
     <FormField>
-      <input
+      <Input
         type="radio"
         checked={currDifficulty === name}
         value={name}
@@ -26,11 +50,19 @@ export default function DifficultyField({
         id={name}
         onChange={radioBtnHandler}
       />
-      <label htmlFor={name}>
-        <p>{name}</p>
-        <p>{typeof mines === 'number' && `${mines} mines`}</p>
-        <p>{typeof rows === 'number' && `${rows} x ${columns} field`}</p>
-      </label>
+      <Label htmlFor={name}>
+        <p>
+          <b>{name}</b>
+        </p>
+        {typeof mines === 'number' && (
+          <>
+            <Description>{mines} mines</Description>
+            <Description>
+              {rows} x {columns} field
+            </Description>
+          </>
+        )}
+      </Label>
     </FormField>
   );
 }
