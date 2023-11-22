@@ -64,7 +64,9 @@ export const getNearbyCells2 = (
   const result: string[] = [];
   const checked = [];
   const check = [`${startRow}:${startColumn}`];
+  console.log('start')
   while (check.length) {
+    console.log(check);
     const temp = check.pop() as string;
     const row = Number(temp.split(':')[0]);
     const column = Number(temp.split(':')[1]);
@@ -93,6 +95,7 @@ export const getNearbyCells2 = (
 
     // проверка врехнего ряда
     if (ar[row - 1]) {
+      console.log('have up')
       // проверка правого соседа
       if (Number(ar[row - 1][column + 1]) >= 0) {
         if (
@@ -116,7 +119,7 @@ export const getNearbyCells2 = (
       // проверка над проверяемой точкой
       if (Number(ar[row - 1][column]) >= 0) {
         if (
-          ar[row - 1][column - 1] === 0 &&
+          ar[row - 1][column] === 0 &&
           !checked.includes(`${row - 1}:${column}`)
         ) {
           check.push(`${row - 1}:${column}`);
@@ -127,6 +130,7 @@ export const getNearbyCells2 = (
 
     // проверка нижнего ряда
     if (ar[row + 1]) {
+      console.log('have donw')
       // проверка правого соседа
       if (Number(ar[row + 1][column + 1]) >= 0) {
         if (
@@ -147,7 +151,7 @@ export const getNearbyCells2 = (
         }
         result.push(`${row + 1}:${column - 1}`);
       }
-      // проверка над проверяемой точкой
+      // проверка под проверяемой точкой
       if (Number(ar[row + 1][column]) >= 0) {
         if (
           ar[row + 1][column - 1] === 0 &&

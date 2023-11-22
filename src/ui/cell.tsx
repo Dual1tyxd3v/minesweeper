@@ -58,7 +58,7 @@ export default function Cell({ rowIndex, columnIndex }: CellProps) {
     if (isOpen || !cellsToOpen.includes(`${rowIndex}:${columnIndex}`)) return;
     setIsOpen(true);
     dispatch(increaseClearCells());
-  }, [cellsToOpen]);
+  }, [cellsToOpen, columnIndex, dispatch, isOpen, rowIndex]);
 
   useEffect(() => {
     if (!field.length) {

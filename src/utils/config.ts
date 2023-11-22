@@ -3,25 +3,25 @@ export const config = {
     rows: 9,
     columns: 9,
     mines: 10,
-    name: 'easy'
+    name: 'easy',
   },
   medium: {
     rows: 16,
     columns: 16,
     mines: 40,
-    name: 'medium'
+    name: 'medium',
   },
   expert: {
     rows: 16,
     columns: 30,
     mines: 99,
-    name: 'expert'
+    name: 'expert',
   },
   custom: {
     rows: [3, 24],
     columns: [3, 30],
     mines: [2, 668],
-    name: 'custom'
+    name: 'custom',
   },
 };
 
@@ -29,5 +29,7 @@ export const CELL_SIZE = 25;
 
 export const gameMessage = {
   win: 'Congratulations!!!',
-  lose: 'You looose =('
-}
+  lose: 'You looose =(',
+};
+
+export const MIN_WIDTH = 1200;
