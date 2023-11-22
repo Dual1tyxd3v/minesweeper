@@ -1,5 +1,6 @@
 import { configureStore, createReducer } from '@reduxjs/toolkit';
 import {
+  addCellsToOpen,
   decreaseMinesTotal,
   increaseClearCells,
   increaseMinesTotal,
@@ -21,6 +22,7 @@ const initStore: StateType = {
   carcass: null,
   clearCells: 0,
   status: 'playing',
+  cellsNeedToOpen: [],
 };
 
 const reducer = createReducer(initStore, (builder) => {
@@ -31,7 +33,7 @@ const reducer = createReducer(initStore, (builder) => {
     })
     .addCase(setLastConfig, (state, action) => {
       state.lastConfig = action.payload;
-      state.minesTotal = state.lastConfig?.mines as number || 0;
+      state.minesTotal = (state.lastConfig?.mines as number) || 0;
     })
     .addCase(resetGame, (state) => {
       if (!state.lastConfig) return;
@@ -40,6 +42,7 @@ const reducer = createReducer(initStore, (builder) => {
       state.timeStart = 0;
       state.minesTotal = state.lastConfig?.mines as number;
       state.status = 'playing';
+      state.cellsNeedToOpen = [];
     })
     .addCase(setCarcass, (state, action) => {
       state.carcass = action.payload;
@@ -55,6 +58,9 @@ const reducer = createReducer(initStore, (builder) => {
     })
     .addCase(setGameStatus, (state, action) => {
       state.status = action.payload;
+    })
+    .addCase(addCellsToOpen, (state, action) => {
+      state.cellsNeedToOpen = action.payload;
     });
 });
 
@@ -73,3 +79,4 @@ export const getCarcass = (state: StateType) => state.carcass;
 export const getLastConfig = (state: StateType) => state.lastConfig;
 export const getClearCells = (state: StateType) => state.clearCells;
 export const getGameStatus = (state: StateType) => state.status;
+export const getCellsToOpen = (state: StateType) => state.cellsNeedToOpen;

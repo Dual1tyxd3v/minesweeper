@@ -41,7 +41,12 @@ export default function Field() {
   const gameStatus = useSelector(getGameStatus);
 
   return (
-    <Wrapper width={carcass?.[0].length || 0} height={carcass?.length || 0}>
+    <Wrapper
+      onSelect={(e) => e.preventDefault()}
+      onMouseDown={(e) => e.preventDefault()}
+      width={carcass?.[0].length || 0}
+      height={carcass?.length || 0}
+    >
       {gameStatus !== 'playing' && <Layout />}
       {carcass &&
         carcass.map((row, i) => (

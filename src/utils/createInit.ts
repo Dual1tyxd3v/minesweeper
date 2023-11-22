@@ -55,3 +55,110 @@ export const createInitState = (
 export const createCarcass = ({ rows, columns }: GameSettings) => {
   return new Array(rows).fill(new Array(columns).fill(null));
 };
+
+export const getNearbyCells2 = (
+  ar: (string | number)[][],
+  startRow: number,
+  startColumn: number
+) => {
+  const result: string[] = [];
+  const checked = [];
+  const check = [`${startRow}:${startColumn}`];
+  while (check.length) {
+    const temp = check.pop() as string;
+    const row = Number(temp.split(':')[0]);
+    const column = Number(temp.split(':')[1]);
+
+    checked.push(temp);
+    // проверка правого соседа
+    if (Number(ar[row][column + 1]) >= 0) {
+      if (
+        ar[row][column + 1] === 0 &&
+        !checked.includes(`${row}:${column + 1}`)
+      ) {
+        check.push(`${row}:${column + 1}`);
+      }
+      result.push(`${row}:${column + 1}`);
+    }
+    // проверка левого соседа
+    if (Number(ar[row][column - 1]) >= 0) {
+      if (
+        ar[row][column - 1] === 0 &&
+        !checked.includes(`${row}:${column - 1}`)
+      ) {
+        check.push(`${row}:${column - 1}`);
+      }
+      result.push(`${row}:${column - 1}`);
+    }
+
+    // проверка врехнего ряда
+    if (ar[row - 1]) {
+      // проверка правого соседа
+      if (Number(ar[row - 1][column + 1]) >= 0) {
+        if (
+          ar[row - 1][column + 1] === 0 &&
+          !checked.includes(`${row - 1}:${column + 1}`)
+        ) {
+          check.push(`${row - 1}:${column + 1}`);
+        }
+        result.push(`${row - 1}:${column + 1}`);
+      }
+      // проверка левого соседа
+      if (Number(ar[row - 1][column - 1]) >= 0) {
+        if (
+          ar[row - 1][column - 1] === 0 &&
+          !checked.includes(`${row - 1}:${column - 1}`)
+        ) {
+          check.push(`${row - 1}:${column - 1}`);
+        }
+        result.push(`${row - 1}:${column - 1}`);
+      }
+      // проверка над проверяемой точкой
+      if (Number(ar[row - 1][column]) >= 0) {
+        if (
+          ar[row - 1][column - 1] === 0 &&
+          !checked.includes(`${row - 1}:${column}`)
+        ) {
+          check.push(`${row - 1}:${column}`);
+        }
+        result.push(`${row - 1}:${column}`);
+      }
+    }
+
+    // проверка нижнего ряда
+    if (ar[row + 1]) {
+      // проверка правого соседа
+      if (Number(ar[row + 1][column + 1]) >= 0) {
+        if (
+          ar[row + 1][column + 1] === 0 &&
+          !checked.includes(`${row + 1}:${column + 1}`)
+        ) {
+          check.push(`${row + 1}:${column + 1}`);
+        }
+        result.push(`${row + 1}:${column + 1}`);
+      }
+      // проверка левого соседа
+      if (Number(ar[row + 1][column - 1]) >= 0) {
+        if (
+          ar[row + 1][column - 1] === 0 &&
+          !checked.includes(`${row + 1}:${column - 1}`)
+        ) {
+          check.push(`${row + 1}:${column - 1}`);
+        }
+        result.push(`${row + 1}:${column - 1}`);
+      }
+      // проверка над проверяемой точкой
+      if (Number(ar[row + 1][column]) >= 0) {
+        if (
+          ar[row + 1][column - 1] === 0 &&
+          !checked.includes(`${row + 1}:${column}`)
+        ) {
+          check.push(`${row + 1}:${column}`);
+        }
+        result.push(`${row + 1}:${column}`);
+      }
+    }
+  }
+
+  return [...new Set(result)];
+};

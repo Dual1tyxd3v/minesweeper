@@ -22,6 +22,7 @@ export type StateType = {
   carcass: null | null[][];
   clearCells: number;
   status: 'playing' | 'win' | 'lose';
+  cellsNeedToOpen: string[];
 };
 
 export type Difficulty = keyof typeof config;

@@ -16,6 +16,10 @@ export const setGameStatus = createAction('setGameStatus', (value) => ({
   payload: value,
 }));
 
+export const addCellsToOpen = createAction('addCellsToOpen', (value) => ({
+  payload: value,
+}));
+
 export const increaseClearCells = createAction('increaseClearCells');
 
 export const resetGame = createAction('resetGame');

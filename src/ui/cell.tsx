@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux';
 import styled, { css } from 'styled-components';
 import {
+  getCellsToOpen,
   getClearCells,
   getField,
   getLastConfig,
@@ -8,13 +9,14 @@ import {
 } from '../store/store';
 import { MouseEvent, useEffect, useState } from 'react';
 import {
+  addCellsToOpen,
   decreaseMinesTotal,
   increaseClearCells,
   increaseMinesTotal,
   setField,
   setGameStatus,
 } from '../store/actions';
-import { createInitState } from '../utils/createInit';
+import { createInitState, getNearbyCells2 } from '../utils/createInit';
 import { GameSettings } from '../types';
 import Value from './value';
 import { borderLightTop } from '../globalstyles';
@@ -50,6 +52,13 @@ export default function Cell({ rowIndex, columnIndex }: CellProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isMarked, setIsMarked] = useState(false);
   const clearCells = useSelector(getClearCells);
+  const cellsToOpen = useSelector(getCellsToOpen);
+
+  useEffect(() => {
+    if (isOpen || !cellsToOpen.includes(`${rowIndex}:${columnIndex}`)) return;
+    setIsOpen(true);
+    dispatch(increaseClearCells());
+  }, [cellsToOpen]);
 
   useEffect(() => {
     if (!field.length) {
@@ -68,21 +77,33 @@ export default function Cell({ rowIndex, columnIndex }: CellProps) {
   function clickHandler() {
     if (!field.length) {
       if (!config) return;
-      dispatch(
-        setField(
-          createInitState(
-            config as GameSettings,
-            rowIndex * config?.columns + columnIndex
-          )
-        )
+      const data = createInitState(
+        config as GameSettings,
+        rowIndex * config?.columns + columnIndex
       );
+      dispatch(setField(data));
+      if (!data[rowIndex][columnIndex]) {
+        const cells = getNearbyCells2(
+          data as (string | number)[][],
+          rowIndex,
+          columnIndex
+        );
+        dispatch(addCellsToOpen(cells));
+      }
       setIsOpen(true);
-
       return;
     }
     if (isMarked || isOpen) return;
     if (field[rowIndex][columnIndex] !== 'x') {
       dispatch(increaseClearCells());
+      if (!field[rowIndex][columnIndex]) {
+        const data = getNearbyCells2(
+          field as (string | number)[][],
+          rowIndex,
+          columnIndex
+        );
+        dispatch(addCellsToOpen(data));
+      }
     } else {
       dispatch(setGameStatus('lose'));
     }
@@ -92,7 +113,7 @@ export default function Cell({ rowIndex, columnIndex }: CellProps) {
   function rightClickHandler(e: MouseEvent) {
     e.preventDefault();
     if (!field.length) return;
-    console.log('right click');
+
     dispatch(isMarked ? increaseMinesTotal() : decreaseMinesTotal());
     setIsMarked((prev) => !prev);
   }

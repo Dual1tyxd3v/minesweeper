@@ -12,6 +12,7 @@ const Wrapper = styled.div`
   text-align: center;
   width: 75%;
   padding: 1rem;
+  z-index: 10;
 `;
 
 type HelpProps = {
