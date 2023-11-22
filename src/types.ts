@@ -15,12 +15,13 @@ export type ConfigField = {
 
 export type StateType = {
   minesTotal: number;
-  minesMarked: number;
   timeStart: number;
   timeEnd: number;
   lastConfig: null | GameSettings;
   field: (string | null)[][];
-  carcass: null | null[][]
+  carcass: null | null[][];
+  clearCells: number;
+  status: 'playing' | 'win' | 'lose';
 };
 
 export type Difficulty = keyof typeof config;

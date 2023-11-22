@@ -1,1 +1,1 @@
-# Игра сапер
+# Игра сапер (Classic Minesweeper game)

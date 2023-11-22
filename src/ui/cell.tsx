@@ -1,21 +1,41 @@
 import { useSelector } from 'react-redux';
-import styled from 'styled-components';
-import { getField, getLastConfig, useAppDispatch } from '../store/store';
-import { MouseEvent } from 'react';
-import { setField } from '../store/actions';
+import styled, { css } from 'styled-components';
+import {
+  getClearCells,
+  getField,
+  getLastConfig,
+  useAppDispatch,
+} from '../store/store';
+import { MouseEvent, useEffect, useState } from 'react';
+import {
+  decreaseMinesTotal,
+  increaseClearCells,
+  increaseMinesTotal,
+  setField,
+  setGameStatus,
+} from '../store/actions';
 import { createInitState } from '../utils/createInit';
 import { GameSettings } from '../types';
 import Value from './value';
+import { borderLightTop } from '../globalstyles';
 
-const Block = styled.div`
+type BlockProps = {
+  isopen: string;
+};
+
+const Block = styled.div<BlockProps>`
   width: 2.5rem;
   height: 2.5rem;
   border: 1px solid var(--color-windows-border);
-  border-collapse: collapse;
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: 'Minesweeper';
+  ${(props) =>
+    props.isopen === 'false' &&
+    css`
+      ${borderLightTop(2)}
+    `}
 `;
 
 type CellProps = {
@@ -27,27 +47,85 @@ export default function Cell({ rowIndex, columnIndex }: CellProps) {
   const field = useSelector(getField);
   const config = useSelector(getLastConfig);
   const dispatch = useAppDispatch();
+  const [isOpen, setIsOpen] = useState(false);
+  const [isMarked, setIsMarked] = useState(false);
+  const clearCells = useSelector(getClearCells);
 
-  function clickHandler(e: MouseEvent) {
-    const button = e.button;
+  useEffect(() => {
     if (!field.length) {
-      if (button !== 0) return;
+      setIsOpen(false);
+      setIsMarked(false);
+    }
+  }, [field]);
+
+  useEffect(() => {
+    if (!config) return;
+    if (clearCells === config.columns * config.rows - config.mines - 1) {
+      dispatch(setGameStatus('win'));
+    }
+  }, [clearCells, config, dispatch]);
+
+  function clickHandler() {
+    if (!field.length) {
+      if (!config) return;
       dispatch(
         setField(
           createInitState(
             config as GameSettings,
-            (rowIndex + 1) * (columnIndex + 1)
+            rowIndex * config?.columns + columnIndex
           )
         )
       );
-    } else {
+      setIsOpen(true);
+
       return;
     }
+    if (isMarked || isOpen) return;
+    if (field[rowIndex][columnIndex] !== 'x') {
+      dispatch(increaseClearCells());
+    } else {
+      dispatch(setGameStatus('lose'));
+    }
+    setIsOpen(true);
+  }
+
+  function rightClickHandler(e: MouseEvent) {
+    e.preventDefault();
+    if (!field.length) return;
+    console.log('right click');
+    dispatch(isMarked ? increaseMinesTotal() : decreaseMinesTotal());
+    setIsMarked((prev) => !prev);
   }
   return (
-    <Block onClick={clickHandler}>
-      {field.length > 0 && (
+    <Block
+      isopen={isOpen.toString()}
+      onContextMenu={rightClickHandler}
+      onClick={clickHandler}
+    >
+      {field.length > 0 && isOpen && (
         <Value cellValue={field[rowIndex][columnIndex]?.toString() as string} />
+      )}
+      {!isOpen && isMarked && (
+        <svg
+          version="1.1"
+          id="レイヤー_1"
+          xmlns="http://www.w3.org/2000/svg"
+          x="0px"
+          y="0px"
+          width="100%"
+          height="100%"
+          viewBox="0 0 76 76"
+          enableBackground="new 0 0 76 76"
+        >
+          <g>
+            <g>
+              <polygon points="35.999,55.5 35.999,16.5 40,16.5 40,55.5 35.999,55.5 		" />
+              <polygon fill="#FF0000" points="40,13.875 19.375,27 40,40.125 		" />
+              <rect x="28.571" y="51.625" width="18.857" height="5.5" />
+              <rect x="20.222" y="56.459" width="35.555" height="7.041" />
+            </g>
+          </g>
+        </svg>
       )}
     </Block>
   );

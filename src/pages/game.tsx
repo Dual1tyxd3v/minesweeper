@@ -6,6 +6,7 @@ import Header from '../ui/header';
 import Wrapper from '../ui/wrapper';
 import GameBoard from '../ui/gameBoard';
 import { useEffect } from 'react';
+import Result from '../ui/result';
 
 const Menu = styled.ul`
   display: flex;
@@ -14,6 +15,7 @@ const Menu = styled.ul`
 
 const GameWrapper = styled(Wrapper)`
   min-width: 30rem;
+  position: relative;
 `;
 
 const GameHeader = styled(Header)`
@@ -40,6 +42,7 @@ export default function Game() {
         </li>
       </Menu>
       <GameBoard />
+      <Result />
     </GameWrapper>
   );
 }

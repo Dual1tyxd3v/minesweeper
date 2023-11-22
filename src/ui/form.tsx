@@ -4,38 +4,16 @@ import { config } from '../utils/config';
 import DifficultyField from './difficultyField';
 import CustomField from './customField';
 import { useAppDispatch } from '../store/store';
-import { setCarcass, setLastConfig, setMinesTotal } from '../store/actions';
+import { setCarcass, setLastConfig } from '../store/actions';
 import { useNavigate } from 'react-router-dom';
 import { Difficulty } from '../types';
 import { createCarcass } from '../utils/createInit';
+import Button from './button';
 
 const StyledForm = styled.form`
   padding: 0 2rem 1rem;
   width: 30rem;
   text-align: center;
-`;
-
-const Button = styled.button`
-  width: 12rem;
-  padding: 5px;
-  background-color: var(--color-windows-bg);
-  border-top: 2px solid #d7e3df;
-  border-left: 2px solid #d7e3df;
-  border-right: 2px solid #000;
-  border-bottom: 2px solid #000;
-  margin-top: 1rem;
-  cursor: pointer;
-
-  &:hover {
-    outline: 1px solid #000;
-  }
-
-  &:focus {
-    border-bottom: 2px solid #d7e3df;
-    border-right: 2px solid #d7e3df;
-    border-left: 2px solid #000;
-    border-top: 2px solid #000;
-  }
 `;
 
 export default function Form() {
@@ -66,11 +44,7 @@ export default function Form() {
 
   function submitHandler(e: FormEvent) {
     e.preventDefault();
-    dispatch(
-      setMinesTotal(
-        difficulty === 'custom' ? customDif.mines : config[difficulty].mines
-      )
-    );
+
     dispatch(
       setLastConfig(difficulty === 'custom' ? customDif : config[difficulty])
     );

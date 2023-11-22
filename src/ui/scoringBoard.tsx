@@ -2,7 +2,12 @@ import styled from 'styled-components';
 import Smile from './smile';
 import { borderDarkTop, borderLightTop } from '../globalstyles';
 import { useSelector } from 'react-redux';
-import { getMinesTotal, getStartTime, useAppDispatch } from '../store/store';
+import {
+  getGameStatus,
+  getMinesTotal,
+  getStartTime,
+  useAppDispatch,
+} from '../store/store';
 import { useEffect, useState } from 'react';
 import { resetGame } from '../store/actions';
 
@@ -43,15 +48,17 @@ export default function ScoringBoard() {
   const startTime = useSelector(getStartTime);
   const [time, setTime] = useState(0);
   const dispatch = useAppDispatch();
+  const gameStatus = useSelector(getGameStatus);
 
   useEffect(() => {
-    if (!startTime) return;
+    if (!startTime || gameStatus !== 'playing') return;
+    setTime(0);
     const timer = setInterval(() => {
       setTime((prev) => prev + 1);
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [startTime]);
+  }, [startTime, gameStatus]);
 
   function btnClickHandler() {
     if (!startTime) return;

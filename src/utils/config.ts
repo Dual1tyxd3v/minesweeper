@@ -26,3 +26,8 @@ export const config = {
 };
 
 export const CELL_SIZE = 25;
+
+export const gameMessage = {
+  win: 'Congratulations!!!',
+  lose: 'You looose =('
+}

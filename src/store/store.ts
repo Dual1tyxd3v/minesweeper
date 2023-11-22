@@ -1,11 +1,13 @@
 import { configureStore, createReducer } from '@reduxjs/toolkit';
 import {
+  decreaseMinesTotal,
+  increaseClearCells,
+  increaseMinesTotal,
   resetGame,
   setCarcass,
   setField,
+  setGameStatus,
   setLastConfig,
-  setMinesMarked,
-  setMinesTotal,
 } from './actions';
 import { useDispatch } from 'react-redux';
 import { StateType } from '../types';
@@ -13,11 +15,12 @@ import { StateType } from '../types';
 const initStore: StateType = {
   field: [],
   minesTotal: 0,
-  minesMarked: 0,
   timeStart: 0,
   timeEnd: 0,
   lastConfig: null,
   carcass: null,
+  clearCells: 0,
+  status: 'playing',
 };
 
 const reducer = createReducer(initStore, (builder) => {
@@ -26,22 +29,32 @@ const reducer = createReducer(initStore, (builder) => {
       state.field = action.payload;
       state.timeStart = new Date().getTime();
     })
-    .addCase(setMinesTotal, (state, action) => {
-      state.minesTotal = action.payload;
-    })
-    .addCase(setMinesMarked, (state, action) => {
-      state.minesMarked = action.payload;
-    })
     .addCase(setLastConfig, (state, action) => {
       state.lastConfig = action.payload;
+      state.minesTotal = state.lastConfig?.mines as number;
     })
     .addCase(resetGame, (state) => {
       if (!state.lastConfig) return;
       state.field = [];
-      state.timeStart = new Date().getTime();
+      state.clearCells = 0;
+      state.timeStart = 0;
+      state.minesTotal = state.lastConfig?.mines as number;
+      state.status = 'playing';
     })
     .addCase(setCarcass, (state, action) => {
       state.carcass = action.payload;
+    })
+    .addCase(increaseMinesTotal, (state) => {
+      state.minesTotal += 1;
+    })
+    .addCase(decreaseMinesTotal, (state) => {
+      state.minesTotal -= 1;
+    })
+    .addCase(increaseClearCells, (state) => {
+      state.clearCells += 1;
+    })
+    .addCase(setGameStatus, (state, action) => {
+      state.status = action.payload;
     });
 });
 
@@ -58,3 +71,5 @@ export const getMinesTotal = (state: StoreType) => state.minesTotal;
 export const getStartTime = (state: StateType) => state.timeStart;
 export const getCarcass = (state: StateType) => state.carcass;
 export const getLastConfig = (state: StateType) => state.lastConfig;
+export const getClearCells = (state: StateType) => state.clearCells;
+export const getGameStatus = (state: StateType) => state.status;

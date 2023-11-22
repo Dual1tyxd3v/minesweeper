@@ -4,11 +4,11 @@ export const createInitState = (
   { rows, columns, mines }: GameSettings,
   clicked: number
 ) => {
-  console.log(clicked);
   let cells = new Array(rows * columns)
     .fill(null)
-    .map((_, i) => (i === clicked - 1 ? null : i))
-    .filter((el) => el);
+    .map((_, i) => i)
+    .filter((el) => el !== clicked);
+
   const minesOnIteration = [];
   const result = new Array(rows)
     .fill(null)
