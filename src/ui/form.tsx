@@ -4,10 +4,10 @@ import { config } from '../utils/config';
 import DifficultyField from './difficultyField';
 import CustomField from './customField';
 import { useAppDispatch } from '../store/store';
-import { setField, setLastConfig, setMinesTotal } from '../store/actions';
-import { createInitState } from '../utils/createInit';
+import { setCarcass, setLastConfig, setMinesTotal } from '../store/actions';
 import { useNavigate } from 'react-router-dom';
 import { Difficulty } from '../types';
+import { createCarcass } from '../utils/createInit';
 
 const StyledForm = styled.form`
   padding: 0 2rem 1rem;
@@ -67,19 +67,17 @@ export default function Form() {
   function submitHandler(e: FormEvent) {
     e.preventDefault();
     dispatch(
-      setField(
-        createInitState(
-          difficulty === 'custom' ? customDif : config[difficulty]
-        )
-      )
-    );
-    dispatch(
       setMinesTotal(
         difficulty === 'custom' ? customDif.mines : config[difficulty].mines
       )
     );
     dispatch(
       setLastConfig(difficulty === 'custom' ? customDif : config[difficulty])
+    );
+    dispatch(
+      setCarcass(
+        createCarcass(difficulty === 'custom' ? customDif : config[difficulty])
+      )
     );
     navigate('/game');
   }

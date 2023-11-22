@@ -24,3 +24,5 @@ export const config = {
     name: 'custom'
   },
 };
+
+export const CELL_SIZE = 25;

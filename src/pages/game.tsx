@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { getField } from '../store/store';
+import { getCarcass } from '../store/store';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from '../ui/header';
@@ -21,11 +21,12 @@ const GameHeader = styled(Header)`
 `;
 
 export default function Game() {
-  const field = useSelector(getField);
+  const carcass = useSelector(getCarcass);
   const navigate = useNavigate();
+
   useEffect(() => {
-    if (!field.length) navigate('/');
-  }, []);
+    if (!carcass) navigate('/');
+  }, [carcass, navigate]);
 
   return (
     <GameWrapper>

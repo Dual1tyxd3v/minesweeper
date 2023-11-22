@@ -2,15 +2,16 @@ import styled from 'styled-components';
 import Smile from './smile';
 import { borderDarkTop, borderLightTop } from '../globalstyles';
 import { useSelector } from 'react-redux';
-import { getMinesTotal, useAppDispatch } from '../store/store';
+import { getMinesTotal, getStartTime, useAppDispatch } from '../store/store';
 import { useEffect, useState } from 'react';
 import { resetGame } from '../store/actions';
 
 const Wrapper = styled.div`
-  ${borderDarkTop}
+  ${borderDarkTop(2)}
   display: flex;
-  padding: 5px 8px;
+  padding: 5px;
   justify-content: space-between;
+  margin-bottom: 1rem;
 `;
 
 const StatusField = styled.p`
@@ -19,13 +20,13 @@ const StatusField = styled.p`
   color: #ff0000;
   background-color: #000;
   letter-spacing: 1px;
-  ${borderDarkTop}
+  ${borderDarkTop(1)}
   width: 48px;
   text-align: center;
 `;
 
 const Button = styled.button`
-  ${borderLightTop}
+  ${borderLightTop(2)}
   background-color: transparent;
   width: 3.5rem;
   height: 3.5rem;
@@ -33,24 +34,27 @@ const Button = styled.button`
   background-color: transparent;
 
   &:focus {
-    ${borderDarkTop}
+    ${borderDarkTop(2)}
   }
 `;
 
 export default function ScoringBoard() {
   const minesTotal = useSelector(getMinesTotal);
+  const startTime = useSelector(getStartTime);
   const [time, setTime] = useState(0);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    if (!startTime) return;
     const timer = setInterval(() => {
       setTime((prev) => prev + 1);
     }, 1000);
 
     return () => clearInterval(timer);
-  });
+  }, [startTime]);
 
   function btnClickHandler() {
+    if (!startTime) return;
     dispatch(resetGame());
     setTime(0);
   }

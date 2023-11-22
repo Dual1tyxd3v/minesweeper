@@ -20,6 +20,7 @@ export type StateType = {
   timeEnd: number;
   lastConfig: null | GameSettings;
   field: (string | null)[][];
+  carcass: null | null[][]
 };
 
 export type Difficulty = keyof typeof config;

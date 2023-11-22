@@ -16,4 +16,8 @@ export const setLastConfig = createAction('setLastConfig', (value) => ({
   payload: value,
 }));
 
+export const setCarcass = createAction('setCarcass', (value) => ({
+  payload: value,
+}));
+
 export const resetGame = createAction('resetGame');

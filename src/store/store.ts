@@ -1,13 +1,13 @@
 import { configureStore, createReducer } from '@reduxjs/toolkit';
 import {
   resetGame,
+  setCarcass,
   setField,
   setLastConfig,
   setMinesMarked,
   setMinesTotal,
 } from './actions';
 import { useDispatch } from 'react-redux';
-import { createInitState } from '../utils/createInit';
 import { StateType } from '../types';
 
 const initStore: StateType = {
@@ -17,6 +17,7 @@ const initStore: StateType = {
   timeStart: 0,
   timeEnd: 0,
   lastConfig: null,
+  carcass: null,
 };
 
 const reducer = createReducer(initStore, (builder) => {
@@ -36,8 +37,11 @@ const reducer = createReducer(initStore, (builder) => {
     })
     .addCase(resetGame, (state) => {
       if (!state.lastConfig) return;
-      state.field = createInitState(state.lastConfig);
+      state.field = [];
       state.timeStart = new Date().getTime();
+    })
+    .addCase(setCarcass, (state, action) => {
+      state.carcass = action.payload;
     });
 });
 
@@ -52,3 +56,5 @@ type StoreType = ReturnType<typeof store.getState>;
 export const getField = (state: StoreType) => state.field;
 export const getMinesTotal = (state: StoreType) => state.minesTotal;
 export const getStartTime = (state: StateType) => state.timeStart;
+export const getCarcass = (state: StateType) => state.carcass;
+export const getLastConfig = (state: StateType) => state.lastConfig;
