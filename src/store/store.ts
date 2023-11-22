@@ -31,7 +31,7 @@ const reducer = createReducer(initStore, (builder) => {
     })
     .addCase(setLastConfig, (state, action) => {
       state.lastConfig = action.payload;
-      state.minesTotal = state.lastConfig?.mines as number;
+      state.minesTotal = state.lastConfig?.mines as number || 0;
     })
     .addCase(resetGame, (state) => {
       if (!state.lastConfig) return;

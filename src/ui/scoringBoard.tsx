@@ -69,7 +69,7 @@ export default function ScoringBoard() {
   return (
     <Wrapper>
       <StatusField>{minesTotal.toString().padStart(3, '0')}</StatusField>
-      <Button onClick={btnClickHandler}>
+      <Button onClick={btnClickHandler} title='New game'>
         <Smile />
       </Button>
       <StatusField>{time.toString().padStart(3, '0')}</StatusField>
