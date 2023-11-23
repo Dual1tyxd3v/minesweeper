@@ -2,7 +2,6 @@ import { useSelector } from 'react-redux';
 import styled, { css } from 'styled-components';
 import {
   getCellsToOpen,
-  getClearCells,
   getField,
   getLastConfig,
   useAppDispatch,
@@ -16,10 +15,11 @@ import {
   setField,
   setGameStatus,
 } from '../store/actions';
-import { createInitState, getNearbyCells2 } from '../utils/createInit';
+import { createInitState, getNearbyCells } from '../utils/createInit';
 import { GameSettings } from '../types';
 import Value from './value';
 import { borderLightTop } from '../globalstyles';
+import { updateStats } from '../utils/stats';
 
 type BlockProps = {
   isopen: string;
@@ -51,7 +51,6 @@ export default function Cell({ rowIndex, columnIndex }: CellProps) {
   const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [isMarked, setIsMarked] = useState(false);
-  const clearCells = useSelector(getClearCells);
   const cellsToOpen = useSelector(getCellsToOpen);
 
   useEffect(() => {
@@ -67,13 +66,6 @@ export default function Cell({ rowIndex, columnIndex }: CellProps) {
     }
   }, [field]);
 
-  useEffect(() => {
-    if (!config) return;
-    if (clearCells === config.columns * config.rows - config.mines - 1) {
-      dispatch(setGameStatus('win'));
-    }
-  }, [clearCells, config, dispatch]);
-
   function clickHandler() {
     if (!field.length) {
       if (!config) return;
@@ -83,7 +75,7 @@ export default function Cell({ rowIndex, columnIndex }: CellProps) {
       );
       dispatch(setField(data));
       if (!data[rowIndex][columnIndex]) {
-        const cells = getNearbyCells2(
+        const cells = getNearbyCells(
           data as (string | number)[][],
           rowIndex,
           columnIndex
@@ -97,7 +89,7 @@ export default function Cell({ rowIndex, columnIndex }: CellProps) {
     if (field[rowIndex][columnIndex] !== 'x') {
       dispatch(increaseClearCells());
       if (!field[rowIndex][columnIndex]) {
-        const data = getNearbyCells2(
+        const data = getNearbyCells(
           field as (string | number)[][],
           rowIndex,
           columnIndex
@@ -105,6 +97,7 @@ export default function Cell({ rowIndex, columnIndex }: CellProps) {
         dispatch(addCellsToOpen(data));
       }
     } else {
+      updateStats(config?.name as string, 'lose');
       dispatch(setGameStatus('lose'));
     }
     setIsOpen(true);
@@ -113,7 +106,6 @@ export default function Cell({ rowIndex, columnIndex }: CellProps) {
   function rightClickHandler(e: MouseEvent) {
     e.preventDefault();
     if (!field.length) return;
-
     dispatch(isMarked ? increaseMinesTotal() : decreaseMinesTotal());
     setIsMarked((prev) => !prev);
   }

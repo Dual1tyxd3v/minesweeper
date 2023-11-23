@@ -23,6 +23,7 @@ export default function Form() {
     rows: rows[0],
     columns: columns[0],
     mines: mines[0],
+    name: 'custom',
   });
   const dispatch = useAppDispatch();
   const navigate = useNavigate();

@@ -20,6 +20,10 @@ export const addCellsToOpen = createAction('addCellsToOpen', (value) => ({
   payload: value,
 }));
 
+export const setTimeEnd = createAction('setTimeAnd', (value) => ({
+  payload: value,
+}));
+
 export const increaseClearCells = createAction('increaseClearCells');
 
 export const resetGame = createAction('resetGame');

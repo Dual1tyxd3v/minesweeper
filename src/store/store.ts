@@ -9,6 +9,7 @@ import {
   setField,
   setGameStatus,
   setLastConfig,
+  setTimeEnd,
 } from './actions';
 import { useDispatch } from 'react-redux';
 import { StateType } from '../types';
@@ -61,6 +62,9 @@ const reducer = createReducer(initStore, (builder) => {
     })
     .addCase(addCellsToOpen, (state, action) => {
       state.cellsNeedToOpen = action.payload;
+    })
+    .addCase(setTimeEnd, (state, action) => {
+      state.timeEnd = action.payload;
     });
 });
 

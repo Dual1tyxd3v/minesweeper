@@ -12,7 +12,6 @@ export default function Settings() {
     if (window.innerWidth < MIN_WIDTH) navigate('/error');
   }, []);
 
-  console.log(window.innerWidth);
   return (
     <Wrapper>
       <Header>Settings</Header>

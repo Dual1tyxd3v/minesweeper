@@ -4,6 +4,7 @@ export type GameSettings = {
   rows: number;
   columns: number;
   mines: number;
+  name: string;
 };
 
 export type ConfigField = {
@@ -26,3 +27,15 @@ export type StateType = {
 };
 
 export type Difficulty = keyof typeof config;
+
+export type StatsFieldType = {
+  win: number;
+  lose: number;
+  best: number;
+};
+
+export type StatsType = {
+  easy: StatsFieldType;
+  medium: StatsFieldType;
+  expert: StatsFieldType;
+};
