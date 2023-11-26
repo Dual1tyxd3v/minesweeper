@@ -33,8 +33,12 @@ export const updateStats = (diff: string, status: string, time?: number) => {
 
   stats[diff][status] += 1;
   if (time) {
-    stats[diff]['best'] =
-      stats[diff]['best'] > time ? time : stats[diff]['best'];
+    if (stats[diff]['best']) {
+      stats[diff]['best'] =
+        stats[diff]['best'] > time ? time : stats[diff]['best'];
+    } else {
+      stats[diff]['best'] = time;
+    }
   }
 
   localStorage.setItem('stats', JSON.stringify(stats));
@@ -46,6 +50,6 @@ export const getStats = () => {
 
 export const getWinRate = (win: number, lose: number) => {
   if (win === 0) return 0;
-  
-  return win * 100 / (win + lose);
-}
+
+  return (win * 100) / (win + lose);
+};

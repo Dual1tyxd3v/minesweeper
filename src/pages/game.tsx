@@ -62,11 +62,8 @@ export default function Game() {
   useEffect(() => {
     if (!config) return;
     if (clearCells === config.columns * config.rows - config.mines - 1) {
-      updateStats(
-        config?.name as string,
-        'win',
-        new Date().getTime() - startTime
-      );
+      const time = Math.floor((new Date().getTime() - startTime) / 1000);
+      updateStats(config?.name as string, 'win', time);
       dispatch(setGameStatus('win'));
     }
   }, [clearCells, config, dispatch, startTime]);
